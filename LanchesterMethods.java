@@ -25,13 +25,14 @@ public class LanchesterMethods {
 
 	// Arctanh
 	private static double atanh(double x) {
-		return (Math.log(1 + x) - Math.log(1 - x)) / 2;
+		return (Math.log((1 + x) / (1 - x))) / 2;
 	}
 
 	// Bestimmung von tdeath - Wann ist eine (oder beide) Population(en) = 0?
 	public static double wannistderkampfentschieden(int p1n, int p2n, double f1, double f2) {
 		double x = (p2n / p1n) * (Math.sqrt(f1 * f2) / f1);
 		double tdeath = 1 / Math.sqrt(f1 * f2) * atanh(x);
+		tdeath = tdeath * (180 / Math.PI); // Umrechnung Rad --> DEG
 		return tdeath;
 
 	}
@@ -41,15 +42,19 @@ public class LanchesterMethods {
 		// Erhaltungsgröße L
 		double l = (int) (f1 * Math.pow(p1n, 2) - f2 * Math.pow(p2n, 2));
 		if (l == 0) {
-			System.out.println("Alle sind tot.");
+			System.out.println("Alle sind tot. :-(");
 		}
 		if (l < 0) {
+			double tdeath = wannistderkampfentschieden(p2n, p1n, f2, f1);
 			int überlebende = (int) Math.sqrt(l / -f2);
-			System.out.println("Population 2 (H) gewinnt mit " + überlebende + " Überlebenden.");
+			System.out.println("Population 2 (H) gewinnt mit " + überlebende
+					+ " Überlebenden. Population 1 (G) ist zum Zeitpunkt " + tdeath + " ausgelöscht.");
 		}
 		if (l > 0) {
+			double tdeath = wannistderkampfentschieden(p1n, p2n, f1, f2);
 			int überlebende = (int) Math.sqrt(l / f1);
-			System.out.println("Population 1 (G) gewinnt mit " + überlebende + " Überlebenden.");
+			System.out.println("Population 1 (G) gewinnt mit " + überlebende
+					+ " Überlebenden. Population 2 (H) ist zum Zeitpunkt " + tdeath + " ausgelöscht.");
 		}
 
 	}
