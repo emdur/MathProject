@@ -8,8 +8,10 @@ public class Lanchester {
 		int h = 600;
 		double s = 4; // Feuerkraft von g
 		double r = 8; // Feuerkraft von h
+		Population g2 = new Population(500, 8);
+		Population h2 = new Population(600, 8);
 
-		LanchesterMethods.wievieleüberleben(g, h, s, r);
+		Population.wievieleüberleben(g2, h2);
 
 	}
 
