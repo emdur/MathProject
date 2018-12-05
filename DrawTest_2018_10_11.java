@@ -35,33 +35,34 @@ public class DrawTest_2018_10_11 extends JFrame {
 	// Wir müssen auf jeden Fall die Parameter g, h, s, r aus der Lanchester-Klasse
 	// in diese Methode stopfen
 	void draw(double absT) {
+		Population g1 = new Population(500, 8);
+		Population h1 = new Population(600, 2);
 		Graphics g = getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
 		int x = 0;
 		int y = 0;
-		// Schleife für die Erstellung der Anfangspopulation g
-		for (int i = 0; i < 500 /* Hier muss iwie Lanchester.g hin */; i++) {
+		// Schleife für die Erstellung der Population g in jedem Frame
+		// für die Animation der Abnahme der Population beim Kampf
+		double tcounter = 0;
+		g1.size = Population.populationt(g1, h1, tcounter);
+		tcounter += 0.01;
+
+		for (int i = 0; i < g1.size; i++) {
 			g.setColor(Color.RED);
 			g.fillOval(Constants.WINDOW_WIDTH / 15 + x, Constants.WINDOW_HEIGHT / 15 + y, 5, 5);
 
 			// x und y mit if, damit die Punkte sich nicht überlagern und links oben
 			// erscheinen
 			// Die Punkte von h könnten dann in eine der anderen Ecken, ich wollt nur erst
-			// mal die
-			// Animation von g hinkriegen, h wird ja dann ähnlich.
+			// mal die Animation von g hinkriegen, h wird ja dann ähnlich.
 			x += 6;
 			if (x > 300) {
 				y += 6;
 				x = 0;
 			}
 		}
-		
-		//Schleife für die Animation der Abnahme der Population beim Kampf
-		for(int i = 0; i <= /*LanchesterMethods.wannistderkampfentschieden (also tdeath)*/; i++) {
-		
-			// LanchesterMethods.populationt(g, h, s, r, i) --> i ist der Zeitparameter t der Methode, die z.B. G(t) ausrechnet
-		}
+		// muss laufen bis tdeath
 	}
 }

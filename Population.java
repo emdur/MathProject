@@ -14,7 +14,9 @@ public class Population {
 	// Populationen zum Zeitpunkt null bzw t: p1n, p2n, p1t;
 	// Feuerkraft der Populationen 1 und 2: f1, f2
 	// Beispiel: G(0), H(0), s (f von g), r (f von h); Ergebnis: G(t)
-	private int populationt(Population p1, Population p2, int t) {
+
+	// visibility of populationt method => package
+	static int populationt(Population p1, Population p2, double t) {
 
 		double k = Math.sqrt(p2.fire * p1.fire);
 		return (int) (p1.size * Math.cosh(k * t) - (p2.fire / k) * p2.size * Math.sinh(k * t));
@@ -26,7 +28,7 @@ public class Population {
 
 	// Veränderungsrate der Population p1 (p1'(t)), 1. Ableitung;
 	// f = Feuerkraft der jeweils anderen Population
-	private double populationv(Population p1, Population p2, int t) {
+	private double populationv(Population p1, Population p2, double t) {
 
 		return -p1.fire * populationt(p2, p1, t);
 	}
