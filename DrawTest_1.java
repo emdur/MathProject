@@ -37,14 +37,28 @@ public class DrawTest_1 extends JFrame {
 	List<Vector> PopListG = new ArrayList<Vector>();
 	List<Vector> PopListH = new ArrayList<Vector>();
 
+	// INFO ZUR METHODE DRAWPOPULATON
+
+	// Das Zeichnen der Punkte ist jetzt in einer Extraschleife:
+	// So können wir in der ersten Schleife der Methode drawPopulation bestimmen,
+	// was gezeichnet werden soll
+	// und außerdem, wo und wann null-Objekte entstehen sollen (zum Punkte löschen).
+	// Es wird also in der ersten Schleife die Liste (PopList) erstellt und editiert
+	// und in der zweiten Schleife wird ausgelesen und gezeichnet, was sich in der
+	// Liste befindet.
+	// Nicht vergessen: Die Methode drawPopulation wird immer noch 1x PER FRAME
+	// aufgerufen!!
+	// Alles wird in jedem Frame neu gezeichnet!
+
 	void drawPopulation(Graphics g, Population p, int leftright, int popcolor, List<Vector> PopList) {
 		int x = 0;
 		int y = 0;
-		// int ö = 0; // x Wert Array
-		// int ä = 0; // y Wert Array
+		int xk = 0; // x Wert Array
+		int yk = 0; // y Wert Array
 
-		// set color
+		// Erstellen der Liste
 		for (int i = 0; i < p.size; i++) {
+			// set color
 			if (popcolor == 0) {
 				g.setColor(Color.RED);
 			}
@@ -52,21 +66,14 @@ public class DrawTest_1 extends JFrame {
 				g.setColor(Color.BLUE);
 			}
 			// VERSUCH ARRAYLIST
-			Vector point = new Vector((Constants.WINDOW_WIDTH / 15 + x - 10) + leftright,
-					Constants.WINDOW_HEIGHT / 15 + y);
-			PopList.add(point);
 
-			// VERSUCH ARRAY
-			/*
-			 * for(int j = 0; j<= Array.length; j++) { for(int k = 0; k<= Array.length; k++)
-			 * { Array[j][k] = } }
-			 */
-			// Array [ö][ä] = [(Constants.WINDOW_WIDTH / 15 + x - 10) +
-			// leftright][Constants.WINDOW_HEIGHT / 15 + y, 5, 5];
+			xk = (Constants.WINDOW_WIDTH / 15 + x - 10) + leftright;
+			yk = Constants.WINDOW_HEIGHT / 15 + y;
 
-			// HIER WIRD JEDER PUNKT ERSTELLT --> HIER ZUM ARRAY HINZUFÜGEN
-			// g.fillOval((Constants.WINDOW_WIDTH / 15 + x - 10) + leftright,
-			// Constants.WINDOW_HEIGHT / 15 + y, 5, 5);
+			// Punkt zu Liste hinzufügen:
+			PopList.add(new Vector(xk, yk));
+
+			// muss in Extraschleife, war vorher hier: g.fillOval(xk, yk, 5, 5);
 
 			// x und y, damit sich die Punkte nicht überlagern
 			x += 6;
@@ -74,6 +81,11 @@ public class DrawTest_1 extends JFrame {
 				y += 6;
 				x = 0;
 			}
+		}
+		// Schleife zum Auslesen der Liste und Zeichnen der Punkte
+		for (int j = 0; j < PopList.size() - 1; j++) {
+			Vector v = PopList.get(j);
+			g.fillOval(v.xKo, v.yKo, 5, 5);
 		}
 	}
 
