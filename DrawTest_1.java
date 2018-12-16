@@ -61,6 +61,14 @@ public class DrawTest_1 extends JFrame {
 		// ERSTELLEN DER LISTE MIT PUNKTEN
 		for (int i = 0; i < p.size; i++) {
 
+			// set color
+			if (popcolor == 0) {
+				g.setColor(Color.RED);
+			}
+			if (popcolor == 1) {
+				g.setColor(Color.BLUE);
+			}
+
 			// VERSUCH ARRAYLIST
 
 			xk = (Constants.WINDOW_WIDTH / 15 + x - 10) + leftright;
@@ -92,23 +100,15 @@ public class DrawTest_1 extends JFrame {
 		}
 
 		// AUSLESEN DER LISTEN UND ZEICHNEN DER PUNKTE IM AKTUELLEN FRAME
-		// Es malt jz weiße Punkte, statt welche ganz zu löschen. Null-Objekte haben
-		// nicht wirklich gefunzt.. idk
+		// Es malt jz weiße Punkte, statt welche ganz zu löschen(edit: es malt sie jz
+		// einfach nicht, um das zu erreichen, gibt es beim Vector Objekt nun den
+		// Bestandteil visibility (boolean))
 		for (int j = 0; j < PopList.size() - 1; j++) {
 			Vector v = PopList.get(j);
-			if (!v.visible) {
-				g.setColor(Color.WHITE);
-			} else {
-				// set color
-				if (popcolor == 0) {
-					g.setColor(Color.RED);
-				}
-				if (popcolor == 1) {
-					g.setColor(Color.BLUE);
-				}
+			if (v.visible) {
+				// draw point
+				g.fillOval(v.xKo, v.yKo, 5, 5);
 			}
-			// draw point
-			g.fillOval(v.xKo, v.yKo, 5, 5);
 		}
 	}
 
@@ -135,7 +135,10 @@ public class DrawTest_1 extends JFrame {
 		// h1.size = Population.populationt(h1, g1, tcounter);
 		drawPopulation(g, h1, g1, leftright, popcolor, PopListH, tcounter);
 
-		tcounter += 0.0001;
+		// tcounter soll sich erhöhen, bis tdeath erreicht ist
+		while (tcounter < Population.wannistderkampfentschieden(g1, h1)) {
+			tcounter += 0.0001;
+		}
 
 		// muss laufen bis tdeath
 	}
