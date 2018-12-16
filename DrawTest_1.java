@@ -92,6 +92,8 @@ public class DrawTest_1 extends JFrame {
 		}
 
 		// AUSLESEN DER LISTEN UND ZEICHNEN DER PUNKTE IM AKTUELLEN FRAME
+		// Es malt jz weiße Punkte, statt welche ganz zu löschen. Null-Objekte haben
+		// nicht wirklich gefunzt.. idk
 		for (int j = 0; j < PopList.size() - 1; j++) {
 			Vector v = PopList.get(j);
 			if (!v.visible) {
