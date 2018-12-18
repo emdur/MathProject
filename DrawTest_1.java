@@ -22,11 +22,10 @@ public class DrawTest_1 extends JFrame {
 
 	static List<Vector> PopListG = new ArrayList<Vector>();
 	static List<Vector> PopListH = new ArrayList<Vector>();
+	static Population g1 = new Population(700, 3);
+	static Population h1 = new Population(500, 2);
 
 	public static void main(String[] args) {
-
-		Population g1 = new Population(400, 8);
-		Population h1 = new Population(600, 2);
 
 		Lanchester.fillPopList(g1, h1, 0, 1, PopListG);
 		Lanchester.fillPopList(h1, g1, Constants.WINDOW_WIDTH / 2, 1, PopListH);
@@ -108,8 +107,7 @@ public class DrawTest_1 extends JFrame {
 	double tcounter = 0;
 
 	void draw(double absT) {
-		Population g1 = new Population(400, 8);
-		Population h1 = new Population(600, 2);
+
 		Graphics g = getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
