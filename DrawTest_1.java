@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 
 public class DrawTest_1 extends JFrame {
 
+	int flag = 0;
+
 	public DrawTest_1() {
 		setTitle("Jenny und Isabellas Lanchester Projekt");
 		setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
@@ -18,7 +20,19 @@ public class DrawTest_1 extends JFrame {
 		// setVisible(true);
 	}
 
+	static List<Vector> PopListG = new ArrayList<Vector>();
+	static List<Vector> PopListH = new ArrayList<Vector>();
+
 	public static void main(String[] args) {
+
+		Population g1 = new Population(400, 8);
+		Population h1 = new Population(600, 2);
+
+		Lanchester.fillPopList(g1, h1, 0, 1, PopListG);
+		Lanchester.fillPopList(h1, g1, Constants.WINDOW_WIDTH / 2, 1, PopListH);
+
+		// fillPopList(p, p2, leftright, popcolor, PopList); --> Muster
+
 		DrawTest_1 testObjekt = new DrawTest_1();
 
 		testObjekt.setVisible(true);
@@ -35,8 +49,7 @@ public class DrawTest_1 extends JFrame {
 
 	}
 
-	List<Vector> PopListG = new ArrayList<Vector>();
-	List<Vector> PopListH = new ArrayList<Vector>();
+	// PopList erstellen Auslagerungsmethode (jz in Lanchester)
 
 	// INFO ZUR METHODE DRAWPOPULATON
 
@@ -53,39 +66,12 @@ public class DrawTest_1 extends JFrame {
 
 	void drawPopulation(Graphics g, Population p, Population p2, int leftright, int popcolor, List<Vector> PopList,
 			double tcounter) {
-		int x = 0;
-		int y = 0;
-		int xk = 0; // x Wert Array
-		int yk = 0; // y Wert Array
 
-		// ERSTELLEN DER LISTE MIT PUNKTEN
-		for (int i = 0; i < p.size; i++) {
+		// if (flag == 0) {
+		// fillPopList(g, p, p2, leftright, popcolor, PopList, tcounter);
+		// }
+		// flag = 1;
 
-			// set color
-			if (popcolor == 0) {
-				g.setColor(Color.RED);
-			}
-			if (popcolor == 1) {
-				g.setColor(Color.BLUE);
-			}
-
-			// VERSUCH ARRAYLIST
-
-			xk = (Constants.WINDOW_WIDTH / 15 + x - 10) + leftright;
-			yk = Constants.WINDOW_HEIGHT / 15 + y;
-
-			// Punkt zu Liste hinzufügen:
-			PopList.add(new Vector(xk, yk, true));
-
-			// muss in Extraschleife, war vorher hier: g.fillOval(xk, yk, 5, 5);
-
-			// x und y, damit sich die Punkte nicht überlagern
-			x += 6;
-			if (x > Constants.WINDOW_WIDTH / 2 - 55) {
-				y += 6;
-				x = 0;
-			}
-		}
 		// TOTE PUNKTE VON DER LISTE LÖSCHEN
 		// berechne Anzahl zu löschender Punkte
 		int n = p.size - Population.populationt(p, p2, tcounter);
@@ -103,6 +89,13 @@ public class DrawTest_1 extends JFrame {
 		// Es malt jz weiße Punkte, statt welche ganz zu löschen(edit: es malt sie jz
 		// einfach nicht, um das zu erreichen, gibt es beim Vector Objekt nun den
 		// Bestandteil visibility (boolean))
+		// set color
+		if (popcolor == 0) {
+			g.setColor(Color.RED);
+		}
+		if (popcolor == 1) {
+			g.setColor(Color.BLUE);
+		}
 		for (int j = 0; j < PopList.size() - 1; j++) {
 			Vector v = PopList.get(j);
 			if (v.visible) {
