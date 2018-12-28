@@ -7,8 +7,8 @@ public class Lanchester {
 	public static void main(String[] args) {
 
 		// insert (Anfangsgröße, Feuerkraft)
-		Population g = new Population(600, 2);
-		Population h = new Population(400, 8);
+		Population g = new Population(500, 4);
+		Population h = new Population(700, 3);
 
 		Population.wievieleüberleben(g, h);
 		System.out.println(Population.populationt(g, h, 0.01));

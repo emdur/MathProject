@@ -22,8 +22,8 @@ public class DrawTest_1 extends JFrame {
 
 	static List<Vector> PopListG = new ArrayList<Vector>();
 	static List<Vector> PopListH = new ArrayList<Vector>();
-	static Population g1 = new Population(700, 3);
-	static Population h1 = new Population(500, 2);
+	static Population g1 = new Population(600, 3);
+	static Population h1 = new Population(500, 6);
 
 	public static void main(String[] args) {
 
@@ -48,8 +48,6 @@ public class DrawTest_1 extends JFrame {
 
 	}
 
-	// PopList erstellen Auslagerungsmethode (jz in Lanchester)
-
 	// INFO ZUR METHODE DRAWPOPULATON
 
 	// Das Zeichnen der Punkte ist jetzt in einer Extraschleife:
@@ -73,7 +71,7 @@ public class DrawTest_1 extends JFrame {
 
 		// TOTE PUNKTE VON DER LISTE LÖSCHEN
 		// berechne Anzahl zu löschender Punkte
-		int n = p.size - Population.populationt(p, p2, tcounter);
+		int n = (int) (p.size - Population.populationt(p, p2, tcounter));
 		// PopList an random Stellen löschen
 		Random ran = new Random();
 		int r;
@@ -128,7 +126,7 @@ public class DrawTest_1 extends JFrame {
 
 		// tcounter soll sich erhöhen, bis tdeath erreicht ist
 		while (tcounter < Population.wannistderkampfentschieden(g1, h1)) {
-			tcounter += 0.0001;
+			tcounter += 0.01;
 		}
 
 		// muss laufen bis tdeath

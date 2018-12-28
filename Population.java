@@ -2,35 +2,28 @@ package app;
 
 public class Population {
 
-	public int size;
+	public double size;
 	public double fire;
 
-	public Population(int size, double fire) {
+	public Population(double size, double fire) {
 		this.size = size;
 		this.fire = fire;
 	};
 
 	// Population p1 zum Zeitpunkt t
-	// Populationen zum Zeitpunkt null bzw t: p1n, p2n, p1t;
-	// Feuerkraft der Populationen 1 und 2: f1, f2
-	// Beispiel: G(0), H(0), s (f von g), r (f von h); Ergebnis: G(t)
-
-	// visibility of populationt method => package
+	// Beispiel: G(0), H(0), s (fire von g), r (fire von h); Ergebnis: G(t)
 	static int populationt(Population p1, Population p2, double t) {
 
 		double k = Math.sqrt(p2.fire * p1.fire);
+
 		return (int) (p1.size * Math.cosh(k * t) - (p2.fire / k) * p2.size * Math.sinh(k * t));
-		/*
-		 * return (int) (Math.sqrt((p1n - (f2 / k) * p2n) / 2 * Math.exp(k * t)) +
-		 * Math.sqrt((p1n + (f2 / k) * p2n) / 2 * Math.exp(-k * t)));
-		 */
+
 	}
 
 	// Veränderungsrate der Population p1 (p1'(t)), 1. Ableitung;
-	// f = Feuerkraft der jeweils anderen Population
-	private double populationv(Population p1, Population p2, double t) {
+	static int populationv(Population p1, Population p2, double t) {
 
-		return -p1.fire * populationt(p2, p1, t);
+		return (int) (-p2.fire * populationt(p2, p1, t));
 	}
 
 	// Arctanh
@@ -40,9 +33,8 @@ public class Population {
 
 	// Bestimmung von tdeath - Wann ist eine (oder beide) Population(en) = 0?
 	public static double wannistderkampfentschieden(Population p1, Population p2) {
-		double x = (p2.size / p1.size) * (Math.sqrt(p1.fire * p2.fire) / p1.fire);
-		double tdeath = 1 / Math.sqrt(p1.fire * p2.fire) * atanh(x);
-		tdeath = tdeath * (180 / Math.PI); // Umrechnung Rad --> DEG
+		double x = p2.size / p1.size * Math.sqrt(p1.fire * p2.fire) / p1.fire;
+		double tdeath = atanh(x) / Math.sqrt(p1.fire * p2.fire);
 		return tdeath;
 
 	}
