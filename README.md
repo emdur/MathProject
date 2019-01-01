@@ -1,3 +1,8 @@
+Es geht jz auch, wenn die zweite Population gewinnt, aber es stoppt nicht und es stimmt auch nicht, wie viele Punkte es in welchem Frame malt. Wenn beim Mathevergleich rauskommt, dass H mit 264 Überlebenden gewinnt, dann sind zu dem Zeitpunkt, an dem der letzte Punkt von G verschwindet, nur noch 2 Punkte von H übrig... Kp wieso oder was wir dagegen tun können...!!
+
+***
+
+
 Hab DrawTest_1 geupdatet (hab alle Änderungen als Kommentare geschrieben).
 
 Es geht nicht wirklich, weiße Punkte flackern und meh...
