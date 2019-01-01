@@ -124,10 +124,7 @@ public class DrawTest_1 extends JFrame {
 		// h1.size = Population.populationt(h1, g1, tcounter);
 		drawPopulation(g, h1, g1, leftright, popcolor, PopListH, tcounter);
 
-		// tcounter soll sich erhöhen, bis tdeath erreicht ist
-		while (tcounter < Population.wannistderkampfentschieden(g1, h1)) {
-			tcounter += 0.01;
-		}
+		tcounter += 0.01;
 
 		// muss laufen bis tdeath
 	}
