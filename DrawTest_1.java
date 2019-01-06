@@ -61,26 +61,50 @@ public class DrawTest_1 extends JFrame {
 	// aufgerufen!!
 	// Alles wird in jedem Frame neu gezeichnet!
 
-	void drawPopulation(Graphics g, Population p, Population p2, int leftright, int popcolor, List<Vector> PopList,
-			double tcounter) {
+	// int f = 0;
 
-		// if (flag == 0) {
-		// fillPopList(g, p, p2, leftright, popcolor, PopList, tcounter);
-		// }
-		// flag = 1;
+	void drawPopulation(Graphics g, Population p, Population p2, int leftright, int popcolor, List<Vector> PopList,
+			double tcounter, double d) {
 
 		// TOTE PUNKTE VON DER LISTE LÖSCHEN
-		// berechne Anzahl zu löschender Punkte
-		int n = (int) (p.size - Population.populationt(p, p2, tcounter));
-		// PopList an random Stellen löschen
-		Random ran = new Random();
-		int r;
-		for (int l = 0; l < n; l++) {
-			// random number from 0 to PopListSize-1 --> n random Stellen
-			r = ran.nextInt(PopList.size());
-			// an random Stelle Indikator für spätere Weißfärbung setzen (Punkt löschen)
-			PopList.get(r).visible = false;
-		}
+		// berechne Anzahl n zu löschender Punkte
+
+		// n = Populationsgröße des letzten Frames - aktuelle Populationsgröße
+		int n = Population.populationt(p, p2, tcounter - d) - Population.populationt(p, p2, tcounter);
+		// f = n;
+
+		int timer = 0;
+		// wenn aktuelle Populationsgröße größer als endgültige Populationsgröße
+		if (Population.populationt(p, p2, tcounter) > Population.populationt(p, p2,
+				Population.wannistderkampfentschieden(p, p2))) {
+			// PopList an random Stellen löschen
+			Random ran = new Random();
+			int r;
+			int s;
+			for (int l = 0; l < n; l++) {
+				// random number from 0 to PopListSize-1 --> n random Stellen
+				r = ran.nextInt(PopList.size());
+				// an random Stelle Indikator für's Nichtzeichnen setzen (Punkt "löschen")
+
+				// Muss iwie einen neuen Punkt randomisieren, wenn der aktuell anvisierte schon
+				// visible=false ist!! Die Liste bleibt fest und wird nicht in jedem Frame
+				// zurückgesetzt, ansonsten tauchen die Lücken in jedem Frame woanders auf
+				// Daher das while...:
+
+				if (PopList.get(r).visible) {
+					PopList.get(r).visible = false;
+				} else {
+
+					while (timer == 0) {
+						s = ran.nextInt(PopList.size());
+						if (PopList.get(s).visible) {
+							PopList.get(s).visible = false;
+							timer = 1;
+						}
+					}
+				}
+			}
+		} // Ende if
 
 		// AUSLESEN DER LISTEN UND ZEICHNEN DER PUNKTE IM AKTUELLEN FRAME
 		// Es malt jz weiße Punkte, statt welche ganz zu löschen(edit: es malt sie jz
@@ -103,6 +127,7 @@ public class DrawTest_1 extends JFrame {
 	}
 
 	double tcounter = 0;
+	double d;
 
 	void draw(double absT) {
 
@@ -117,14 +142,15 @@ public class DrawTest_1 extends JFrame {
 		int leftright = 0;
 		int popcolor = 0;
 		// g1.size = Population.populationt(g1, h1, tcounter);
-		drawPopulation(g, g1, h1, leftright, popcolor, PopListG, tcounter);
+		drawPopulation(g, g1, h1, leftright, popcolor, PopListG, tcounter, d);
 
 		popcolor = 1;
 		leftright = Constants.WINDOW_WIDTH / 2;
 		// h1.size = Population.populationt(h1, g1, tcounter);
-		drawPopulation(g, h1, g1, leftright, popcolor, PopListH, tcounter);
+		drawPopulation(g, h1, g1, leftright, popcolor, PopListH, tcounter, d);
 
 		tcounter += 0.01;
+		d = tcounter - 0.01;
 
 		// muss laufen bis tdeath
 	}
