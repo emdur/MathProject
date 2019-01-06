@@ -1,8 +1,11 @@
 Aktuellste Version von DrawTest_01 vom 06.01.19:
 
 to do:
+
 --> Es zeigt noch nicht die richtige Punkteanzahl an
+
 --> "Infinity"-Fall bei unentschiedenem Ausgang
+
 --> Ende der Animation bei tdeath (kp ob das schon geht)
 
 ***
