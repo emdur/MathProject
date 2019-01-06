@@ -4,7 +4,7 @@ to do:
 
 ## --> Es zeigt noch nicht die richtige Punkteanzahl an
 
-## --> Alles auf Papier durchgehen und alle Variablen und Casts auf int/double-Fehler prüfen!!
+## --> Alles (vll auf Papier) EXAKT durchgehen und alle Variablen und Casts auf int/double-Fehler prüfen!!
 
 --> "Infinity"-Fall bei unentschiedenem Ausgang
 
