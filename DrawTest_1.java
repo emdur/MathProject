@@ -62,6 +62,7 @@ public class DrawTest_1 extends JFrame {
 	// Alles wird in jedem Frame neu gezeichnet!
 
 	// int f = 0;
+	int n = 0;
 
 	void drawPopulation(Graphics g, Population p, Population p2, int leftright, int popcolor, List<Vector> PopList,
 			double tcounter, double d) {
@@ -70,38 +71,32 @@ public class DrawTest_1 extends JFrame {
 		// berechne Anzahl n zu löschender Punkte
 
 		// n = Populationsgröße des letzten Frames - aktuelle Populationsgröße
-		int n = Population.populationt(p, p2, tcounter - d) - Population.populationt(p, p2, tcounter);
+		n = Population.populationt(p, p2, tcounter - d) - Population.populationt(p, p2, tcounter);
+		// System.out.println(n);
 		// f = n;
 
 		int timer = 0;
 		// wenn aktuelle Populationsgröße größer als endgültige Populationsgröße
+		// System.out.println("1: " + Population.populationt(p, p2, tcounter));
+		// System.out.println("2: " + Population.populationt(p, p2,
+		// Population.wannistderkampfentschieden(p, p2)));
 		if (Population.populationt(p, p2, tcounter) > Population.populationt(p, p2,
 				Population.wannistderkampfentschieden(p, p2))) {
 			// PopList an random Stellen löschen
-			Random ran = new Random();
-			int r;
-			int s;
-			for (int l = 0; l < n; l++) {
-				// random number from 0 to PopListSize-1 --> n random Stellen
-				r = ran.nextInt(PopList.size());
-				// an random Stelle Indikator für's Nichtzeichnen setzen (Punkt "löschen")
-
-				// Muss iwie einen neuen Punkt randomisieren, wenn der aktuell anvisierte schon
-				// visible=false ist!! Die Liste bleibt fest und wird nicht in jedem Frame
-				// zurückgesetzt, ansonsten tauchen die Lücken in jedem Frame woanders auf
-				// Daher das while...:
-
-				if (PopList.get(r).visible) {
-					PopList.get(r).visible = false;
-				} else {
-
-					while (timer == 0) {
-						s = ran.nextInt(PopList.size());
-						if (PopList.get(s).visible) {
-							PopList.get(s).visible = false;
-							timer = 1;
-						}
+			if (PopList.size() <= 1) {
+				PopList.clear();
+			} else {
+				Random ran = new Random();
+				int r;
+				int s;
+				for (int l = 0; l < n; l++) {
+					if (PopList.size() >= 1) {
+						// random number from 0 to PopListSize-1 --> n random Stellen
+						r = (int) (Math.random() * PopList.size());
+						System.out.println("r: " + r);
+						PopList.remove(r);
 					}
+
 				}
 			}
 		} // Ende if
@@ -119,11 +114,10 @@ public class DrawTest_1 extends JFrame {
 		}
 		for (int j = 0; j < PopList.size() - 1; j++) {
 			Vector v = PopList.get(j);
-			if (v.visible) {
-				// draw point
-				g.fillOval(v.xKo, v.yKo, 5, 5);
-			}
+			// draw point
+			g.fillOval(v.xKo, v.yKo, 5, 5);
 		}
+
 	}
 
 	double tcounter = 0;
@@ -137,7 +131,7 @@ public class DrawTest_1 extends JFrame {
 
 		// Erstellung der Populationen in jedem Frame;
 		// Methode populationt mit Parameter tcounter für die Animation der Abnahme der
-		// Population beim Kampf
+		// Population beim Kampf --> momentan in drawPopulation-Methode
 
 		int leftright = 0;
 		int popcolor = 0;
