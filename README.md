@@ -1,3 +1,11 @@
+Weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee es geht!
+to do:
+
+--> Flackern in den ersten paar Frames und danach
+--> Infinity-Fall in Lanchester-Methode (--> wenn eine Population 0.5 ist (momentan ist es 0))
+
+***
+
 Aktuellste Version von DrawTest_01 vom 06.01.19:
 
 to do:
