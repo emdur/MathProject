@@ -1,8 +1,12 @@
 Weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee es geht!
 to do:
+#Iwie kommt, wenn man sich in jedem Frame tcounter ausgeben lässt, die Zahl von tcounter nie bis zu tdeath...
 
 --> Flackern in den ersten paar Frames und danach
+
 --> Infinity-Fall in Lanchester-Methode (--> wenn eine Population 0.5 ist (momentan ist es 0))
+
+  --> hab ich gemacht, stimmt hoffentlich. vll nochmal iwie überprüfen (Internet)
 
 ***
 
