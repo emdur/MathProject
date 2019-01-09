@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -22,15 +21,16 @@ public class DrawTest_1 extends JFrame {
 
 	static List<Vector> PopListG = new ArrayList<Vector>();
 	static List<Vector> PopListH = new ArrayList<Vector>();
-	static Population g1 = new Population(300, 1);
-	static Population h1 = new Population(200, 6);
+	static Population g1 = new Population(400, 3);
+	static Population h1 = new Population(300, 3);
 
 	public static void main(String[] args) {
 
-		Lanchester.fillPopList(g1, h1, 0, 1, PopListG);
-		Lanchester.fillPopList(h1, g1, Constants.WINDOW_WIDTH / 2, 1, PopListH);
+		Population.wievieleüberleben(g1, h1);
 
-		// fillPopList(p, p2, leftright, popcolor, PopList); --> Muster
+		// FÜLLE DIE BEIDEN VEKTORLISTEN FÜR DIE POPULATIONEN G UND H
+		fillPopList(g1, h1, 0, 1, PopListG);
+		fillPopList(h1, g1, Constants.WINDOW_WIDTH / 2, 1, PopListH);
 
 		DrawTest_1 testObjekt = new DrawTest_1();
 
@@ -48,60 +48,57 @@ public class DrawTest_1 extends JFrame {
 
 	}
 
-	// INFO ZUR METHODE DRAWPOPULATON
+	static void fillPopList(Population p, Population p2, int leftright, int popcolor, List<Vector> PopList) {
+		int x = 0;
+		int y = 0;
+		int xk = 0; // x Wert in der Arraylist
+		int yk = 0; // y Wert in der Arraylist
+		// ERSTELLEN DER LISTE MIT PUNKTEN
+		for (int i = 0; i < p.size; i++) {
 
-	// Das Zeichnen der Punkte ist jetzt in einer Extraschleife:
-	// So können wir in der ersten Schleife der Methode drawPopulation bestimmen,
-	// was gezeichnet werden soll
-	// und außerdem, wo und wann null-Objekte entstehen sollen (zum Punkte löschen).
-	// Es wird also in der ersten Schleife die Liste (PopList) erstellt und editiert
-	// und in der zweiten Schleife wird ausgelesen und gezeichnet, was sich in der
-	// Liste befindet.
-	// Nicht vergessen: Die Methode drawPopulation wird immer noch 1x PER FRAME
-	// aufgerufen!!
-	// Alles wird in jedem Frame neu gezeichnet!
+			// VERSUCH ARRAYLIST
 
-	// int f = 0;
+			xk = (Constants.WINDOW_WIDTH / 15 + x - 10) + leftright;
+			yk = Constants.WINDOW_HEIGHT / 15 + y;
+
+			// Punkt zu Liste hinzufügen:
+			PopList.add(new Vector(xk, yk, true));
+
+			// x und y, damit sich die Punkte nicht überlagern --> Offset
+			x += 6;
+			if (x > Constants.WINDOW_WIDTH / 2 - 55) {
+				y += 6;
+				x = 0;
+			}
+		}
+	}
+
 	int n = 0;
-	Vector vec;
 
 	void drawPopulation(Graphics g, Population p, Population p2, int leftright, int popcolor, List<Vector> PopList,
 			double tcounter, double d) {
 
 		// TOTE PUNKTE VON DER LISTE LÖSCHEN
-		// berechne Anzahl n zu löschender Punkte
 
-		// System.out.println(n);
-		// f = n;
+		// wenn aktuelle Listenlänge (= Populationsgröße) größer ist als die
+		// Endpopulation beim Zeitpunkt tdeath, sollen Punkte gelöscht werden
+		if (PopList.size() > Population.populationt(p, p2, Population.wannistderkampfentschieden(p, p2))) {
 
-		int timer = 0;
-		// wenn aktuelle Populationsgröße größer als endgültige Populationsgröße
-		// System.out.println("1: " + Population.populationt(p, p2, tcounter));
-		// System.out.println("2: " + Population.populationt(p, p2,
-		// Population.wannistderkampfentschieden(p, p2)));
-		// (Population.populationt(p, p2, tcounter)
-		// if (PopList.size() > Population.populationt(p, p2,
-		// Population.wannistderkampfentschieden(p, p2))) {
+			// berechne Anzahl n zu löschender Punkte
+			// n = Populationsgröße aus letztem Frame - Aktuelle Populationsgröße
+			n = Population.populationt(p, p2, tcounter - d) - Population.populationt(p, p2, tcounter);
 
-		n = Population.populationt(p, p2, tcounter - d) - Population.populationt(p, p2, tcounter);
-		Random ran = new Random();
-		int r = 0;
-		int s;
-		// if (PopList.size() > Population.populationt(p, p2,
-		// Population.wannistderkampfentschieden(p, p2))) {
-		// try {
+			int r = 0;
+			for (int l = 0; l < n; l++) {
 
-		for (int l = 0; l < n; l++) {
+				try {
+					// random number from 0 to PopListSize-1 --> n random Stellen
+					r = (int) (Math.random() * PopList.size());
+					PopList.remove(r);
 
-			try {
-				// random number from 0 to PopListSize-1 --> n random Stellen
-				r = (int) (Math.random() * PopList.size());
-				// System.out.println("r: " + r);
-				vec = PopList.get(r);
-				PopList.remove(r);
-			} catch (IndexOutOfBoundsException e) {
-				// System.out.println("This is the ennnnnd");
-				// PopList.add(r, vec);
+				} catch (IndexOutOfBoundsException e) {
+
+				}
 			}
 		}
 
@@ -132,7 +129,7 @@ public class DrawTest_1 extends JFrame {
 	}
 
 	double tcounter = 0;
-	double d;
+	double d = 0;
 
 	void draw(double absT) {
 
@@ -144,32 +141,19 @@ public class DrawTest_1 extends JFrame {
 		// Methode populationt mit Parameter tcounter für die Animation der Abnahme der
 		// Population beim Kampf --> momentan in drawPopulation-Methode
 
+		// ERSTELLEN DER POPULATION G PRO FRAME
 		int leftright = 0;
 		int popcolor = 0;
+		drawPopulation(g, g1, h1, leftright, popcolor, PopListG, tcounter, d);
 
-		// double td = Population.populationt(g1, h1,
-		// Population.wannistderkampfentschieden(g1, h1));
-		if (PopListG.size() > Population.populationt(g1, h1, Population.wannistderkampfentschieden(g1, h1))) {
-			// g1.size = Population.populationt(g1, h1, tcounter);
-			drawPopulation(g, g1, h1, leftright, popcolor, PopListG, tcounter, d);
-		} else {
-			drawOnly(popcolor, g, PopListG);
-		}
-
+		// ERSTELLEN DER POPULATION H PRO FRAME
 		popcolor = 1;
 		leftright = Constants.WINDOW_WIDTH / 2;
-		// double tdd = Population.populationt(h1, g1,
-		// Population.wannistderkampfentschieden(h1, g1));
-		if (PopListH.size() > Population.populationt(h1, g1, Population.wannistderkampfentschieden(h1, g1))) {
+		drawPopulation(g, h1, g1, leftright, popcolor, PopListH, tcounter, d);
 
-			// h1.size = Population.populationt(h1, g1, tcounter);
-			drawPopulation(g, h1, g1, leftright, popcolor, PopListH, tcounter, d);
-		} else {
-			drawOnly(popcolor, g, PopListH);
-		}
-
+		// d = nachher Zeit aus jeweils letztem Frame
+		d = tcounter;
 		tcounter += 0.01;
-		d = tcounter - 0.01;
 
 		// muss laufen bis tdeath
 	}

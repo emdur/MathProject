@@ -33,8 +33,18 @@ public class Population {
 
 	// Bestimmung von tdeath - Wann ist eine (oder beide) Population(en) = 0?
 	public static double wannistderkampfentschieden(Population p1, Population p2) {
+
 		double x = p2.size / p1.size * Math.sqrt(p1.fire * p2.fire) / p1.fire;
 		double tdeath = atanh(x) / Math.sqrt(p1.fire * p2.fire);
+
+		return tdeath;
+	}
+
+	public static double infinityCase(Population p1, Population p2) {
+
+		double x = p2.size / p1.size * Math.sqrt(p1.fire * p2.fire) / p1.fire - 0.5;
+		double tdeath = atanh(x) / Math.sqrt(p1.fire * p2.fire);
+
 		return tdeath;
 
 	}
@@ -43,8 +53,10 @@ public class Population {
 	public static void wievieleüberleben(Population p1, Population p2) {
 		// Erhaltungsgröße L
 		double l = (int) (p1.fire * Math.pow(p1.size, 2) - p2.fire * Math.pow(p2.size, 2));
+
 		if (l == 0) {
-			System.out.println("Alle sind tot. :-(");
+			double tdeath = infinityCase(p2, p1);
+			System.out.println("Alle sind tot. :-( Endzeitpunkt: " + tdeath);
 		}
 		if (l < 0) {
 			double tdeath = wannistderkampfentschieden(p2, p1);
