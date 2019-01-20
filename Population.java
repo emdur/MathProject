@@ -42,7 +42,7 @@ public class Population {
 
 	public static double infinityCase(Population p1, Population p2) {
 
-		double x = p2.size / p1.size * Math.sqrt(p1.fire * p2.fire) / p1.fire - 0.5;
+		double x = 1 - 0.25 / (p1.size * p1.fire); // p2.size / p1.size * Math.sqrt(p1.fire * p2.fire) / p1.fire - 0.5;
 		double tdeath = atanh(x) / Math.sqrt(p1.fire * p2.fire);
 
 		return tdeath;
